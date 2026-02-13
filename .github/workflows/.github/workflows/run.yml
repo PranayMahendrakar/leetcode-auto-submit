@@ -1,0 +1,28 @@
+name: Run LeetCode Submitter
+
+on:
+  # Run on schedule (every 6 hours) - adjust as needed
+    schedule:
+        - cron: '0 */6 * * *'    # Every 6 hours
+
+            # Also allow manual trigger from GitHub UI
+              workflow_dispatch:
+
+              jobs:
+                submit:
+                    runs-on: ubuntu-latest
+
+                            steps:
+                                  - name: Checkout repo
+                                          uses: actions/checkout@v4
+
+                                                      - name: Set up Python
+                                                              uses: actions/setup-python@v5
+                                                                      with:
+                                                                                python-version: '3.11'
+
+                                                                                            - name: Run script
+                                                                                                    env:
+                                                                                                              LEETCODE_CSRF: ${{ secrets.LEETCODE_CSRF }}
+                                                                                                                        LEETCODE_SESSION: ${{ secrets.LEETCODE_SESSION }}
+                                                                                                                                run: python leetcode_submit.py
